@@ -104,6 +104,11 @@ Failed to Select: Zach Lavine (ranked #14 in model), Julius Randle (ranked #17 i
 Total: 9/12
 
 ## Conclusion
+
+#### Limitations
+We figured gathering data would be difficult, and that turned out to be the case. Some data features we considered turned out to be impossible to gather, such as popularity of players. Since there is a fan vote that makes a percentage of the way players are chosen to the All-Star game, we knew popularity would be a key feature. While we were able to find jersey sales annually, that is not the only measure of popularity we wanted. We wanted to track social media followers annually. But computing the number of followers that players had at a certain date historically turned out to be impossible for us. Thus, we were not able to add that feature to our model, potentially hindering its performance.
+
+#### Takeaways
 Overall, it seems our ability to predict if a player will be an All-Star based on the data we collected is quite good. We were able to correctly predict 20/24 (83%) of the players on the 2020 All-Star team and none of the players we failed to select were out of the model's top 20 ranking for each conference (top 12 are selected). TAdditinally, one of the players we technically predicted incorrectly did end up getting selected as a replacement. To put this result in context, we found [predictions](https://www.nba.com/news/powells-potential-all-star-field) made by a journalist for nba.com at the end of January 2021, so someone who had the same amount of info as us. This journalist, who has covered the NBA for 25 years, was able to predict 21/24 correctly, so just one better than our model. Additionally, the 2020 season we predicted on was shortened because of postponements, making it an especially difficult year to make predictions on due to the lack of data.
 
 Going forward one area where this model could improve is by taking into account that starters and reserves are selected using a slightly different process in recent years. This means that the features that predict an All-Star could be slightly different than those that predict a reserve, where most of the model's mistakes will be made. Additionally
