@@ -78,7 +78,7 @@ Below is the predicted All-Star team for the Western Conference in the 2020 seas
 | Donovan Mitchell | Yes |
 | Rudy Gobert  | Yes   |
 | Chris Paul | Yes |
-| DeMar DeRozan  | No   |
+| DeMar DeRozan  | **No**   |
 
 Failed to Select: Zion Williamson (ranked #19 in model)
 Total: 11/12
@@ -90,13 +90,13 @@ Below is the predicted All-Star team for the Eastern Conference. Overall, the mo
 | Kevin Durant | Yes |
 | Giannis Antetokounmpo   | Yes    |
 | Joel Embiid | Yes      |
-| Trae Young | No |
+| Trae Young | **No** |
 | Kyrie Irving   | Yes   |
 | Jayson Tatum | Yes |
-| Domantas Sabonis   | No*    |
+| Domantas Sabonis   | **No***    |
 | James Harden | Yes      |
 | Bradley Beal | Yes |
-| Khris Middleton | No   |
+| Khris Middleton | **No**   |
 | Jaylen Brown | Yes |
 | Ben Simmons   | Yes   |
 
