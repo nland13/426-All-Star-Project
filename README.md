@@ -81,6 +81,7 @@ Below is the predicted All-Star team for the Western Conference in the 2020 seas
 | DeMar DeRozan  | **No**   |
 
 Failed to Select: Zion Williamson (ranked #19 in model)
+
 Total: 11/12
 
 Below is the predicted All-Star team for the Eastern Conference. Overall, the model correctly predicted 9/12 of the players on the team. It should be noted, however, that Domantas Sabonis, who our model predicted to be an All-Star, was actually chosen as an All-Star after another player contracted COVID but was not technically part of the initial 12 players, so his selection is considered an error by the model. 
@@ -101,6 +102,7 @@ Below is the predicted All-Star team for the Eastern Conference. Overall, the mo
 | Ben Simmons   | Yes   |
 
 Failed to Select: Zach Lavine (ranked #14 in model), Julius Randle (ranked #17 in model), Nikola Vucevic (ranked #20 in model)
+
 Total: 9/12
 
 ## Conclusion
