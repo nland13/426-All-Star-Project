@@ -1,7 +1,7 @@
 # NBA All-Star Predictions
 ## Introduction
 
-Every year the NBA selects 24 of its star players to play in an exhibition "All-Star" game. This game is usually held in the middle of the season and is one of the most anticipated events of the year, serving as the marquee event of the otherwise uniform middle part of the season. 
+Every year the NBA selects 24 of its star players, 12 from each conference, to play in an exhibition "All-Star" game. This game is usually held in the middle of the season and is one of the most anticipated events of the year, serving as the marquee event of the otherwise uniform middle part of the season. 
 
 Being selected as an All-Star is considered a very high honor, and the number of All-Star selections a player has is often one of the first statistics cited to demonstrate a player's greatness. Selection to the All-Star game is not just honorific, however, with many endorsement contracts including substantial bonuses for a player who achieves the rank.
 
@@ -49,7 +49,64 @@ To further explore the data, we also used PCA to reduce the data to only 2 compo
 <img src="https://github.com/nland13/final/blob/main/figures/pca.png">
 
 ## Model Fitting
+The plan to fit and test the model was to use only the data from the 2012-2019 season to fit the model so that we could test how well our model performed on the 2020 season. Thus, the first step in fitting the model was to completely separate the 2012-2019 data and the 2020 data to ensure no data leakage whatsoever, which would taint our results. Then, we split the 2012-2019 data into test and train datasets, using .67 for the train dataset size, so we could evaluate what model worked the best. 
 
+Before fitting the models we us used BorderlineSMOTE from the imblearn package. This function creates synthetic data from the minority class (All-Stars in our case), focusing on border cases, so that the classes are more balanced. This was appropriate for our data because the vast majority of players are not All-Stars in a given season and thus we had significant class imbalance. We also scaled the data, which allowed us to test a Multinomial Naive Bayes model.
+
+After making those adjustments to the data, we fit a multinomial Naive Bayes model, a logistic regression model, a decision tree model, a random forest model, and a gradient boosting model on the training data from 2012-2019. We then calculated test/training accuracy, F1 Score, AUC, and the confusion matrix for each model. This allowed us to compare the performance of the models. In addition to these standard metrics, we also created our own unique metric that looked at the percentage of correctly predicted All-Stars in the test-data if we only get the same number of predictions as there are All-Stars in the test data. For example, there happened to be 73 total All-Stars in the test data, so for each model we sorted our predictions by probability of being an All-Star and only kept the top 73. Then, we evaluated how many in our top 73 were All-Stars. This metric was extremely useful for comparing the models because it most closely mimicked how we would assess our overall results when we predicted on the 2020 data.
+
+The model that we selected after evaluating their performance was a logistic regression model, which predicted 81% of the top 73. After making this decision, we then selected what features we would use. We did this by using a recursive feature elimination function that ranked the importance of each feature in the model. For this part we returned to using all the 2012-2019 data rather than splitting it up into test/train so that we would use more data when deciding what featues to keep. Based on the results of this and some testing, we decided to keep the following feautres: minutes, field goals made, field goals attempted, 3 pointers made, free throws made, free throws attempted, offensive rebounds, defensive rebounds, assists, blocks, fouls, points, PER, team win percentage, 2K Rank, Prior All-Star appearances, percentage games played, position, and conference. 
+
+This means we decided to drop 3 pointers attempted, steals, turnovers, plus minus, true shooting percentage, top 15 jersey sales, and if selected for the prior all star game. Out of the dropped features, it makes sense that turnovers and true shooting percentage got dropped because both of these metrics will be harmed when players are required to do a lot. That means players with poor numbers for these features could either be those who simply play poorly or those who are very good and are thus required to do a lot. That makes the metrics not very helpful for predicting All-Stars. It was more surprising, however, that selection for the prior all star game and if a player had top 15 jersey sales ended up being unimportant to the model.
+
+After decding on the features to keep in, predictions were made by simply oversampling/scaling the 2012-2019 data, keeping the relevant features, fitting the model, and then predicting probability on the 2020 data, which was also scaled but not oversampled. The 12 players from each conference with the highest predicted probability of being an All-Star were then considered to be the model's predictions. After making these predictions, no changes were made to the model to ensure that no data leakage would occur and the results would be representative of the model's true predictive ability.
+
+## Results
+
+Below is the predicted All-Star team for the Western Conference in the 2020 season (All-Star game held in 2021) ordered by the model's predicted probability of being an All-Star. Overall, the model correctly predicted 11/12 of the players and the player who was predicted to be an All-Star but did not end up being one had the lowest probability of the 12 predictions. The player that the model failed to select for the 12th spot was Zion Williamson, a player with a lot of potential and hype who was in only his second-year at the time. It is possible he was selected for the All-Star team in part because of his future potential rather than his results, something our model could not account for.
+
+| Predicted All-Stars    | Actually All-Star?          |
+| ------------- |:-------------:|
+| LeBron James| Yes |
+| Anthony Davis  | Yes    |
+| Damian Lillard | Yes      |
+| Luka Doncic | Yes |
+| Stephen Curry  | Yes   |
+| Paul George | Yes |
+| Nikola Jokic  | Yes    |
+| Kawhi Leonard | Yes      |
+| Donovan Mitchell | Yes |
+| Rudy Gobert  | Yes   |
+| Chris Paul | Yes |
+| DeMar DeRozan  | No   |
+
+Failed to Select: Zion Williamson (ranked #19 in model)
+Total: 11/12
+
+Below is the predicted All-Star team for the Eastern Conference. Overall, the model correctly predicted 9/12 of the players on the team. It should be noted, however, that Domantas Sabonis, who our model predicted to be an All-Star, was actually chosen as an All-Star after another player contracted COVID but was not technically part of the initial 12 players so his selection is considered an error by the model. 
+
+| All-Stars     | Actually All-Star?         |
+| ------------- |:-------------:|
+| Kevin Durant | Yes |
+| Giannis Antetokounmpo   | Yes    |
+| Joel Embiid | Yes      |
+| Trae Young | No |
+| Kyrie Irving   | Yes   |
+| Jayson Tatum | Yes |
+| Domantas Sabonis   | No*    |
+| James Harden | Yes      |
+| Bradley Beal | Yes |
+| Khris Middleton | No   |
+| Jaylen Brown | Yes |
+| Ben Simmons   | Yes   |
+
+Failed to Select: Zach Lavine (ranked #14 in model), Julius Randle (ranked #17 in model), Nikola Vucevic (ranked #20 in model)
+Total: 9/12
+
+## Conclusion
+Overall, it seems our ability to predict if a player will be an All-Star based on the data we collected is quite good. We were able to correctly predict 20/24 (83%) of the players on the 2020 All-Star team and none of the players we failed to select were out of the model's top 20 ranking for each conference (top 12 are selected). TAdditinally, one of the players we technically predicted incorrectly did end up getting selected as a replacement. To put this result in context, we found [predictions](https://www.nba.com/news/powells-potential-all-star-field) made by a journalist for nba.com at the end of January 2021, so someone who had the same amount of info as us. This journalist, who has covered the NBA for 25 years, was able to predict 21/24 correctly, so just one better than our model. Additionally, the 2020 season we predicted on was shortened because of postponements, making it an especially difficult year to make predictions on due to the lack of data.
+
+Going forward one area where this model could improve is by taking into account that starters and reserves are selected using a slightly different process in recent years. This means that the features that predict an All-Star could be slightly different than those that predict a reserve, where most of the model's mistakes will be made. Additionally
 
 
 
