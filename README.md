@@ -31,7 +31,26 @@ After combining all the data from all of our sources, we calculated two commonly
 
 We also wanted to make the seasons as comparable as possible. We did this by dividing all the relevant metrics by their season's corresponding pace so that the increase in the speed of the game would not confuse the model. Additionally, instead of using games played as a factor, we used games played as a percentage of total games played by that team. That way shortened seasons such as the 2020 season would not have very different games played figures.
 
-This data preparation left us with the following potential predictors: season, percentage games played, position, 2K rank, conference, team win percentage, jersey sales, if in previous All-Star game, previous All-Star game selections, and per game average minutes played, field goals made/attempted, 3-pointers made/attempted, free throws made/attempted, offensive/defensive rebounds, blocks, steals, turnovers, assists, fouls, points, +/-, PER, and true shooting percentage,
+## EDA
+Exploring the data, we noticed that no All-Star had ever averaged less than 27 minutes per game. Thus, for EDA we filtered the data set by players who average more than 20 minutes per game to make the All-Star and non All-Star groups more comparable and also make the visuals easier to interpret. After applying this filter, we calculated the average statistics for the All-Star and non All-Star groups and found the difference. This can be seen in the table below. As shown in the table, the differences between the groups are quite large, and this encouraged us that we would be able to detect the differences in the classes.
+
+<img src="https://github.com/nland13/final/blob/main/figures/table.png" width="900" height="150">
+
+We then created several scatterplots for variables we though would be important, color-coding by All-Star status. These plots once again support the notion that the classes are divided well on the features we have collected. The points vs team winning percentage plot was especially interesting and revealed that those two features alone nearly divided the classes into entirely seperate groups. That plot also revealed an interesting pattern that shows that in general an All-Star can score less if he is on a team with a higer winning percentage. These scatterplots are shown below.
+
+<img src="https://github.com/nland13/final/blob/main/figures/winpoints.png" width="900" height="150">
+
+<img src="https://github.com/nland13/final/blob/main/figures/pointstsp.png" width="900" height="150">
+
+<img src="https://github.com/nland13/final/blob/main/figures/per2k.png" width="900" height="150">
+
+To further explore the data, we also used PCA to reduce the data to only 2 components. We then plotted this, color-coding by All-Star status. The clear separation in the data using only two components further confirmed our suspicion that our model could potentially be effective at predicting what classes a data point belonged to.
+
+<img src="https://github.com/nland13/final/blob/main/figures/pca.png" width="900" height="150">
+
+## Model Fitting
+
+
 
 
 
